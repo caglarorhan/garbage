@@ -51,16 +51,19 @@
             let barcodeDetector = new BarcodeDetector();
             alert('barcodedetector created');
             alert(file)
-            barcodeDetector.detect(file)
-                .then(detectedCodes => {
-                    for (const barcode of detectedCodes) {
-                        alert(' Barcode ${barcode.rawValue}' +
-                            ' @ (${barcode.boundingBox.x}, ${barcode.boundingBox.y}) with size' +
-                            ' ${barcode.boundingBox.width}x${barcode.boundingBox.height}');
-                    }
-                }).catch(() => {
-                alert("Barcode Detection failed, boo.");
-            })
+            window.setInterval(()=>{
+                await barcodeDetector.detect(file)
+                    .then(detectedCodes => {
+                        for (const barcode of detectedCodes) {
+                            alert(' Barcode ${barcode.rawValue}' +
+                                ' @ (${barcode.boundingBox.x}, ${barcode.boundingBox.y}) with size' +
+                                ' ${barcode.boundingBox.width}x${barcode.boundingBox.height}');
+                        }
+                    }).catch((err) => {
+                        alert("Barcode Detection failed, boo."+err);
+                    })
+            },1000);
+
         }
     }
 
