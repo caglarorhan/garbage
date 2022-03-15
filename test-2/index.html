@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Cam test 11</title>
+    <title>Cam test 12</title>
 </head>
 <body>
 <label for="barcodeContainingImage">Take a barcode/qrcode picture:</label>
@@ -44,9 +44,14 @@
                 context.drawImage(img, 0, 0)
                 const imageData = context.getImageData(0, 0, img.width, img.height)
                 const code = barcodeDetector.detect(imageData)
-                if (code) {
-                    theBarcodeValue.innerText = code.rawValue
-                }
+                .then(function(result) {
+                    if (result) {
+                        theBarcodeValue.innerText = result.rawValue
+                    }
+                })
+                .catch(function(err) {
+                    console.error(err)
+                })
             }
         }
 
