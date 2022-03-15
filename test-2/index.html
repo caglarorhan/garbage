@@ -11,7 +11,7 @@
        id="barcodeContainingImage" name="barcodeContainingImage"
        accept="image/png, image/jpeg" capture="environment">
 
-<span id="theBarcodeValue"></span>
+<span id="theBarcodeValue">BARCODE DATA PLACE</span>
 
 
 
@@ -46,7 +46,7 @@
         detect: async (file) => {
             let detector = new BarcodeDetector()
             const result = await detector.detect(file);
-            dpcument.getElementById('theBarcodeValue').innerHTML = JSON.stringify(result, null, 2);
+            document.getElementById('theBarcodeValue').innerHTML = JSON.stringify(result, null, 2);
         }
     }
 
