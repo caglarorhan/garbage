@@ -20,6 +20,7 @@
         let barcodeContainingImage = document.getElementById('barcodeContainingImage');
         barcodeContainingImage.addEventListener('change',()=>{
             let file = barcodeContainingImage.files[0];
+            document.getElementById('theBarcodeValue').innerHTML='File is ready...';
             bD.detect(file);
 
         });
@@ -44,6 +45,7 @@
         barcodeContainingImage: document.getElementById('barcodeContainingImage'),
         barcodeContainer: document.getElementById("theBarcodeValue"),
         detect: async (file) => {
+            document.getElementById('theBarcodeValue').innerHTML="Detection started";
             let detector = new BarcodeDetector()
             const result = await detector.detect(file);
             document.getElementById('theBarcodeValue').innerHTML = JSON.stringify(result, null, 2);
