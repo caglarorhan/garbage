@@ -36,44 +36,21 @@
         const file = barcodeContainingImage.files[0]
         fr.readAsArrayBuffer(file)
         fr.onload = function() {
-            const blob = new Blob([fr.result])
-
-        barcodeDetector.detect(blob)
-            .then(data=>{
-                theBarcodeValue.innerText = data.rawValue;
-            })
-            .catch(err=>{
-                theBarcodeValue.innerText = err;
-            })
-
-        barcodeDetector.detect(file)
-            .then(data=>{
-                theBarcodeValue.innerText = data.rawValue;
-            })
-            .catch(err=>{
-                theBarcodeValue.innerText = err;
-            })
-
-            //
-            var canvas = document.createElement("canvas");
-            canvas.width = file.width;
-            canvas.height = file.height;
-            canvas.getContext("2d").drawImage(file, 0, 0);
-
-        barcodeDetector.detect(canvas)
-            .then(data=>{
-                theBarcodeValue.innerText = data.rawValue;
-            })
-            .catch(err=>{
-                theBarcodeValue.innerText = err;
-            })
-
-
-
-
+            const img = new Image()
+            img.src = fr.result
+            img.onload = function() {
+                const image = new ImageData(img.width, img.height)
+                const context = canvas.getContext('2d')
+                context.drawImage(img, 0, 0)
+                const imageData = context.getImageData(0, 0, img.width, img.height)
+                const code = barcodeDetector.detect(imageData)
+                if (code) {
+                    theBarcodeValue.innerText = code.rawValue
+                }
+            }
         }
-    });
 
+    })
 
 </script>
 </body>
