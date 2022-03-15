@@ -45,6 +45,7 @@
         barcodeContainingImage: document.getElementById('barcodeContainingImage'),
         barcodeContainer: document.getElementById("theBarcodeValue"),
         detect: async (file) => {
+            if(!('BarcodeDetector' in window)){alert('barcodedetector desteklenmiyor'); return false;}
             document.getElementById('theBarcodeValue').innerHTML="Detection started";
             let detector = new BarcodeDetector()
             const result = await detector.detect(file);
