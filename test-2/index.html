@@ -30,32 +30,43 @@
     const barcodeDetector = new BarcodeDetector({formats: barcodeFormats});
     const barcodeContainingImage = document.getElementById('barcodeContainingImage');
     const theBarcodeValue = document.getElementById('theBarcodeValue');
+    const fr = new FileReader();
 
     barcodeContainingImage.addEventListener('change', function () {
-        const fr = new FileReader()
-        const file = barcodeContainingImage.files[0]
+        //-------------------------------------------
+        let file = barcodeContainingImage.files[0];
         fr.readAsArrayBuffer(file)
         fr.onload = function() {
-            const img = new Image()
-            img.src = fr.result
-            img.onload = function() {
-                const image = new ImageData(img.width, img.height)
-                const context = canvas.getContext('2d')
-                context.drawImage(img, 0, 0)
-                const imageData = context.getImageData(0, 0, img.width, img.height)
-                const code = barcodeDetector.detect(imageData)
-                .then(function(result) {
-                    if (result) {
-                        theBarcodeValue.innerText = result.rawValue
-                    }
-                })
-                .catch(function(err) {
-                    console.error(err)
-                })
-            }
+            // you can keep blob or save blob to another position
+            const blob = new Blob([fr.result]);
+            const image = new Image();
+            image.src = URL.createObjectURL(blob);
+            barcodeDetector.detect(image)
+            .then(function(barcodes) {
+                if (barcodes.length > 0) {
+                    theBarcodeValue.innerText = barcodes[0].rawValue;
+                }
+            })
         }
-
+        //-------------------------------------------
+        // fr.onloadend = function() {
+        //     const image = new Image();
+        //     image.src = fr.result;
+        //     image.onload = function() {
+        //         const imageData = {
+        //             image: image,
+        //             width: image.width,
+        //             height: image.height
+        //         };
+        //         const barcodeDetectorResult = barcodeDetector.detect(imageData);
+        //         if (barcodeDetectorResult.length > 0) {
+        //             theBarcodeValue.innerText = barcodeDetectorResult[0].rawValue;
+        //         }
+        //     }
+        // }
+        //-------------------------------------------
     })
+
 
 </script>
 </body>
