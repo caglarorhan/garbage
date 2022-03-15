@@ -23,12 +23,12 @@
         const reader = new FileReader();
         reader.addEventListener('load', function () {
             const image = new Image();
-            image.addEventListener('load', function () {
+            image.src = file.value;
                 const imageData = barcodeDetector.detect(image);
                 if (imageData.barcodes.length > 0) {
                     theBarcodeValue.innerText = imageData.barcodes[0].rawValue;
                 }
-            });
+
             image.src = reader.result;
         });
         reader.readAsDataURL(file);
