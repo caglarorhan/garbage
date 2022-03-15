@@ -13,61 +13,26 @@
 
 <span id="theBarcodeValue">BARCODE DATA PLACE</span>
 
-
-
 <script>
-    window.addEventListener('load',()=>{
-        let barcodeContainingImage = document.getElementById('barcodeContainingImage');
-        barcodeContainingImage.addEventListener('change',()=>{
-            alert('OK')
-            let file = barcodeContainingImage.files[0];
-            document.getElementById('theBarcodeValue').innerHTML='File is ready...';
-            bD.detect(file);
+    const barcodeDetector = new BarcodeDetector({formats: ['code_39', 'codabar', 'ean_13']});
+    const barcodeContainingImage = document.getElementById('barcodeContainingImage');
+    const theBarcodeValue = document.getElementById('theBarcodeValue');
 
+    barcodeContainingImage.addEventListener('change', function () {
+        const file = barcodeContainingImage.files[0];
+        const reader = new FileReader();
+        reader.addEventListener('load', function () {
+            const image = new Image();
+            image.addEventListener('load', function () {
+                const imageData = barcodeDetector.detect(image);
+                if (imageData.barcodes.length > 0) {
+                    theBarcodeValue.innerText = imageData.barcodes[0].rawValue;
+                }
+            });
+            image.src = reader.result;
         });
+        reader.readAsDataURL(file);
     });
-
-    const bD = {
-        barcodeFormats: [
-            "aztec",
-            "code_128",
-            "code_39",
-            "code_93",
-            "codabar",
-            "data_matrix",
-            "ean_13",
-            "ean_8",
-            "itf",
-            "pdf417",
-            "qr_code",
-            "unknown",
-            "upc_a",
-            "upc_e"],
-        barcodeContainingImage: document.getElementById('barcodeContainingImage'),
-        barcodeContainer: document.getElementById("theBarcodeValue"),
-        detect: async (file) => {
-            if(!('BarcodeDetector' in window)){alert('barcodedetector desteklenmiyor'); return false;}
-            document.getElementById('theBarcodeValue').innerHTML="Detection started";
-            let barcodeDetector = new BarcodeDetector();
-            alert('barcodedetector created');
-            alert(file)
-            window.setInterval(async ()=>{
-                await barcodeDetector.detect(file)
-                    .then(detectedCodes => {
-                        for (const barcode of detectedCodes) {
-                            alert(' Barcode ${barcode.rawValue}' +
-                                ' @ (${barcode.boundingBox.x}, ${barcode.boundingBox.y}) with size' +
-                                ' ${barcode.boundingBox.width}x${barcode.boundingBox.height}');
-                        }
-                    }).catch((err) => {
-                        alert("Barcode Detection failed, boo."+err);
-                    })
-            },1000);
-
-        }
-    }
-
-
 
 
 </script>
