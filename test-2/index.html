@@ -45,6 +45,32 @@
             .catch(err=>{
                 theBarcodeValue.innerText = err;
             })
+
+        barcodeDetector.detect(file)
+            .then(data=>{
+                theBarcodeValue.innerText = data.rawValue;
+            })
+            .catch(err=>{
+                theBarcodeValue.innerText = err;
+            })
+
+            //
+            var canvas = document.createElement("canvas");
+            canvas.width = file.width;
+            canvas.height = file.height;
+            canvas.getContext("2d").drawImage(file, 0, 0);
+
+        barcodeDetector.detect(canvas)
+            .then(data=>{
+                theBarcodeValue.innerText = data.rawValue;
+            })
+            .catch(err=>{
+                theBarcodeValue.innerText = err;
+            })
+
+
+
+
         }
     });
 
