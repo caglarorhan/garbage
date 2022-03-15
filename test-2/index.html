@@ -39,32 +39,16 @@
         fr.onload = function() {
             // you can keep blob or save blob to another position
             const blob = new Blob([fr.result]);
-            const image = new Image();
-            image.src = URL.createObjectURL(blob);
-            barcodeDetector.detect(image)
+            alert(blob);
+            barcodeDetector.detect(blob)
             .then(function(barcodes) {
-                if (barcodes.length > 0) {
-                    theBarcodeValue.innerText = barcodes[0].rawValue;
-                }
+                barcodes.forEach(barcode => {
+                    theBarcodeValue.innerText=barcode.rawData;
+                    return true;
+                });
+
             })
         }
-        //-------------------------------------------
-        // fr.onloadend = function() {
-        //     const image = new Image();
-        //     image.src = fr.result;
-        //     image.onload = function() {
-        //         const imageData = {
-        //             image: image,
-        //             width: image.width,
-        //             height: image.height
-        //         };
-        //         const barcodeDetectorResult = barcodeDetector.detect(imageData);
-        //         if (barcodeDetectorResult.length > 0) {
-        //             theBarcodeValue.innerText = barcodeDetectorResult[0].rawValue;
-        //         }
-        //     }
-        // }
-        //-------------------------------------------
     })
 
 
