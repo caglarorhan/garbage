@@ -46,6 +46,7 @@
         detect: async (file) => {
             let detector = new BarcodeDetector()
             const result = await detector.detect(file);
+            dpcument.getElementById('theBarcodeValue').innerHTML = JSON.stringify(result, null, 2);
         }
     }
 
