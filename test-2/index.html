@@ -19,17 +19,18 @@
     const theBarcodeValue = document.getElementById('theBarcodeValue');
 
     barcodeContainingImage.addEventListener('change', function () {
-        const file = barcodeContainingImage.files[0];
-        let theImage = new Image();
-        theImage.src = URL.createObjectURL(file);
+        const fr = new FileReader()
+        const file = barcodeContainingImage.files[0]
+        fr.readAsArrayBuffer(file)
+        fr.onload = function() {
+            const blob = new Blob([fr.result])
 
-        barcodeDetector.detect(theImage)
-            .then(barcodes => {
-                barcodes.forEach(barcode => alert(barcode.rawData));
-            })
-            .catch(err => {
-                alert(err);
-            })
+        barcodeDetector.detect(blob).then(function(barcodes) {
+            if (barcodes.length > 0) {
+                theBarcodeValue.innerText = barcodes[0].rawValue;
+            }
+        })
+        }
     });
 
 
