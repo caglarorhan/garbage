@@ -42,6 +42,9 @@
             .then(data=>{
                 theBarcodeValue.innerText = data.rawValue;
             })
+            .catch(err=>{
+                theBarcodeValue.innerText = err;
+            })
         }
     });
 
