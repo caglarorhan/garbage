@@ -46,8 +46,8 @@
                     theBarcodeValue.innerText=barcode.rawData;
                     return true;
                 });
-
             })
+            .catch((err)=>{theBarcodeValue.innerText=err});
         }
     })
 
