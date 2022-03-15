@@ -47,7 +47,7 @@ bD.detect(reader.result);
             bD.detect = (imageEl)=>{
                 // check compatibility
                 if (!('BarcodeDetector' in window)) {
-                    console.log('Barcode Detector is not supported by this browser.');
+                    alert('Barcode Detector is not supported by this browser.');
                 } else {
                     console.log('Barcode Detector supported!');
                     // create new detector
