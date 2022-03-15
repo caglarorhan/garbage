@@ -36,11 +36,11 @@
         //-------------------------------------------
         let file = barcodeContainingImage.files[0];
         fr.readAsArrayBuffer(file)
-        fr.onload = function() {
+        fr.onload = async function() {
             // you can keep blob or save blob to another position
             const blob = new Blob([fr.result]);
             alert(blob);
-            barcodeDetector.detect(blob)
+            await barcodeDetector.detect(blob)
             .then(function(barcodes) {
                 barcodes.forEach(barcode => {
                     theBarcodeValue.innerText=barcode.rawData;
