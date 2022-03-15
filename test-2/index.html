@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Cam test 10</title>
+    <title>Cam test 11</title>
 </head>
 <body>
 <label for="barcodeContainingImage">Take a barcode/qrcode picture:</label>
@@ -14,7 +14,20 @@
 <span id="theBarcodeValue">BARCODE DATA PLACE</span>
 
 <script>
-    const barcodeDetector = new BarcodeDetector({formats: ['code_39', 'codabar', 'ean_13']});
+    const barcodeFormats = ['aztec',
+        'code_128',
+        'code_39',
+        'code_93',
+        'codabar',
+        'data_matrix',
+        'ean_13',
+        'ean_8',
+        'itf',
+        'pdf417',
+        'qr_code',
+        'upc_a',
+        'upc_e']
+    const barcodeDetector = new BarcodeDetector({formats: barcodeFormats});
     const barcodeContainingImage = document.getElementById('barcodeContainingImage');
     const theBarcodeValue = document.getElementById('theBarcodeValue');
 
@@ -25,11 +38,10 @@
         fr.onload = function() {
             const blob = new Blob([fr.result])
 
-        barcodeDetector.detect(blob).then(function(barcodes) {
-            if (barcodes.length > 0) {
-                theBarcodeValue.innerText = barcodes[0].rawValue;
-            }
-        })
+        barcodeDetector.detect(blob)
+            .then(data=>{
+                theBarcodeValue.innerText = data.rawValue;
+            })
         }
     });
 
